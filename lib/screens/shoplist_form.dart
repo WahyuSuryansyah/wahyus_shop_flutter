@@ -11,8 +11,6 @@ class ShopFormPage extends StatefulWidget {
 
     @override
     State<ShopFormPage> createState() => _ShopFormPageState();
-
-
 }
 
 class _ShopFormPageState extends State<ShopFormPage> {
@@ -166,6 +164,7 @@ class _ShopFormPageState extends State<ShopFormPage> {
                       // TODO: Sesuaikan field data sesuai dengan aplikasimu
                   }));
                   if (response['status'] == 'success') {
+                      print(response['status']);
                       ScaffoldMessenger.of(context)
                           .showSnackBar(const SnackBar(
                       content: Text("Produk baru berhasil disimpan!"),
@@ -198,4 +197,3 @@ class _ShopFormPageState extends State<ShopFormPage> {
         );
     }
 }
-

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as https;
+import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:wahyus_shop/models/product.dart';
 import 'package:wahyus_shop/widgets/left_drawer.dart';
@@ -16,7 +16,7 @@ Future<List<Product>> fetchProduct() async {
     // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
     var url = Uri.parse(
         'http://127.0.0.1:8000/json/');
-    var response = await https.get(
+    var response = await http.get(
         url,
         headers: {"Content-Type": "application/json"},
     );
@@ -79,8 +79,9 @@ Widget build(BuildContext context) {
                                     const SizedBox(height: 10),
                                     Text("${snapshot.data![index].fields.price}"),
                                     const SizedBox(height: 10),
-                                    Text(
-                                        "${snapshot.data![index].fields.description}")
+                                    Text("${snapshot.data![index].fields.description}"),
+                                    const SizedBox(height: 10),
+                                    Text("${snapshot.data![index].fields.amount}")
                                 ],
                                 ),
                             ));

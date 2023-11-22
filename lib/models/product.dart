@@ -39,6 +39,7 @@ class Fields {
     String name;
     DateTime dateAdded;
     int price;
+    int amount;
     String description;
 
     Fields({
@@ -47,6 +48,8 @@ class Fields {
         required this.dateAdded,
         required this.price,
         required this.description,
+        required this.amount,
+
     });
 
     factory Fields.fromJson(Map<String, dynamic> json) => Fields(
@@ -54,6 +57,7 @@ class Fields {
         name: json["name"],
         dateAdded: DateTime.parse(json["date_added"]),
         price: json["price"],
+        amount: json["amount"],
         description: json["description"],
     );
 
@@ -62,6 +66,7 @@ class Fields {
         "name": name,
         "date_added": "${dateAdded.year.toString().padLeft(4, '0')}-${dateAdded.month.toString().padLeft(2, '0')}-${dateAdded.day.toString().padLeft(2, '0')}",
         "price": price,
+        "amount": amount,
         "description": description,
     };
 }
