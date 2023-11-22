@@ -3,6 +3,1337 @@ NPM  : 2206083142
 Kelas: PBP E
 Kode Asdos: LKS
 
+
+Tugas 9 
+(Dengan Bonus: Register)
+
+1. Apakah bisa kita melakukan pengambilan data JSON tanpa membuat model terlebih dahulu? Jika iya, apakah hal tersebut lebih baik daripada membuat model sebelum melakukan pengambilan data JSON?
+    Ya, kita bisa melakukan pengambilan data JSON tanpa membuat model terlebih dahulu. Ini bisa dilakukan dengan langsung mem-parsing data JSON ke dalam struktur data seperti dictionary atau array, tergantung pada struktur data JSON itu sendiri. 
+    
+    - apakah ini lebih baik daripada membuat model terlebih dahulu? 
+        Tergantung pada konteks dan kebutuhan aplikasi kta. Berikut adalah beberapa pertimbangan:
+
+    Keuntungan menggunakan model:
+    - Validasi data
+        Model dapat membantu dalam validasi data. Misalnya, jika kita tahu bahwa suatu nilai harus berupa integer dan model kita mencerminkan hal ini, maka jika data JSON berisi nilai non-integer untuk bidang ini, kesalahan akan terjadi saat parsing.
+    - Ease of Use
+        Dengan model, kita dapat mengakses data menggunakan properti objek, yang bisa lebih intuitif dan mudah dibaca daripada mengakses nilai melalui kunci dictionary.
+    - Dokumentasi dan struktur
+        Model memberikan struktur yang jelas untuk data kita, yang bisa sangat membantu dalam dokumentasi dan pemahaman data.
+
+    Keuntungan tidak menggunakan model:
+    - Fleksibilitas
+        Jika struktur data JSON sangat dinamis dan berubah-ubah, mungkin lebih mudah untuk bekerja dengan dictionary atau array daripada mencoba menyesuaikan model kita setiap kali struktur berubah.
+    - Kecepatan pengembangan
+        Dalam beberapa kasus, mungkin lebih cepat dan lebih mudah untuk mulai bekerja dengan data tanpa menghabiskan waktu untuk mendefinisikan model terlebih dahulu.
+
+2. Jelaskan fungsi dari CookieRequest dan jelaskan mengapa instance CookieRequest perlu untuk dibagikan ke semua komponen di aplikasi Flutter.
+
+    Kelas CookieRequest merupakan bagian dari implementasi manajemen otentikasi (authentication) di aplikasi Flutter dengan menggunakan cookies. 
+    Terdapat beberapa fungsionalitas utama dari kelas sebagai berikut:
+
+    - Inisialisasi dan Pemeliharaan Cookies
+        sudah tersimpan, memeriksa apakah sesi pengguna sudah login, dan mengelola headers yang berisi informasi cookie.
+     - Request HTTP dengan Otentikas
+        Kelas ini memiliki beberapa metode untuk melakukan permintaan HTTP seperti get, post, dan postJson. Semua metode ini menyertakan informasi otentikasi dalam header HTTP jika pengguna sudah login.
+     
+    - Manajemen Sesi Pengguna
+        Kelas ini menyediakan fungsionalitas untuk login dan logout. Metode login digunakan untuk mengirimkan permintaan login ke server, dan jika berhasil, menyimpan cookies dan status login. Metode logout digunakan untuk melakukan logout, menghapus cookies, dan mengubah status login.
+    
+    - Penanganan Cookies
+         Kelas ini memiliki fungsi-fungsi untuk mengelola cookies, termasuk pembacaan dari penyimpanan lokal (shared preferences), pembaruan berdasarkan respons HTTP, dan pembuatan header cookie.
+    
+    - Keamanan dan Pengaturan Cookies
+        Fungsi _setCookie digunakan untuk menguraikan dan menyimpan properti cookies, termasuk waktu kedaluwarsa (max-age). Fungsi _generateCookieHeader digunakan untuk membuat header cookie yang akan disertakan dalam setiap permintaan HTTP.
+
+    Mengapa perlu dibagikan ke semua komponen di aplikasi Flutter?
+
+    Terdapat beberapa alasan sebagai berikut:
+    - Pemeliharaan Status Login
+        Dengan membagikan instance CookieRequest ke semua komponen, kita dapat memastikan bahwa status login pengguna dapat diakses dan diperbarui secara konsisten di seluruh aplikasi. Hal ini penting agar komponen-komponen yang berbeda dapat merespons perubahan status login dengan benar.
+    - Pengelolaan Otentikasi
+        Instance CookieRequest menyimpan informasi otentikasi dan cookies. Dengan membagikannya ke berbagai komponen, kita dapat mengakses informasi otentikasi ini dari mana saja dalam aplikasi, memungkinkan komunikasi yang efektif dengan server dan pemeliharaan otentikasi.
+    - Pemrosesan Permintaan HTTP
+        Dengan menyediakan instance CookieRequest ke berbagai komponen, setiap komponen dapat melakukan permintaan HTTP dengan otentikasi tanpa perlu mengulang kembali proses autentikasi. Ini meningkatkan efisiensi dan mengurangi redundansi kode.
+    - Manajemen Cookies yang Konsisten
+        Melalui instance CookieRequest, komponen-komponen dapat mengakses dan memanipulasi cookies secara konsisten. Ini membantu dalam penanganan cookies dan menjaga konsistensi antara komponen-komponen yang berbeda.
+
+3. Jelaskan mekanisme pengambilan data dari JSON hingga dapat ditampilkan pada Flutter.
+
+Data diambil melalui respons URL yang telah ditentukan dalam proyek Django. Respons tersebut kemudian diuraikan (decoded) menjadi format JSON. Selanjutnya, dibuatlah sebuah daftar (list) item yang berisi elemen-elemen Item, di mana setiap elemen ini berasal dari hasil dekoding JSON yang tadi. Proses ini dilakukan dengan menggunakan iterasi, di mana setiap item dimasukkan ke dalam list item.
+
+Untuk mengambil hasil dari pengambilan item, FutureBuilder digunakan. FutureBuilder memberikan kemampuan untuk memanggil hasil dari fungsi asinkron (async) yang mengambil item. Hasil dari proses ini kemudian ditampilkan menggunakan ListView.builder, yang memungkinkan pembuatan tampilan dinamis berdasarkan data yang diterima.
+
+4. Jelaskan mekanisme autentikasi dari input data akun pada Flutter ke Django hingga selesainya proses autentikasi oleh Django dan tampilnya menu pada Flutter.
+
+    Pengguna menginputkan username dan password melalui TextField dalam framework Flutter, dan data ini disimpan dalam variabel username dan password. Ketika tombol login ditekan, aplikasi mengirimkan HTTP POST request ke endpoint /auth/login/ di server Django. Data username dan password dikirimkan sebagai bagian dari body request dalam format JSON.
+
+    Server Django menerima request dan melakukan proses autentikasi terhadap pengguna. Jika autentikasi berhasil, Django mengirimkan respon berisi pesan sukses dan data pengguna. Namun, jika autentikasi gagal, Django mengirimkan respon dengan pesan kesalahan. Aplikasi Flutter menerima respon dari Django dan memeriksa apakah autentikasi berhasil. Jika berhasil, aplikasi akan mengarahkan pengguna ke halaman utama (MyHomePage); sebaliknya, jika gagal, aplikasi akan menampilkan pesan kesalahan.
+
+    Setelah pengguna berhasil login, mereka akan diarahkan ke halaman utama aplikasi di mana menu aplikasi ditampilkan.
+
+5. Sebutkan seluruh widget yang kamu pakai pada tugas ini dan jelaskan fungsinya masing-masing.
+
+    AppBar
+        AppBar menampilkan widget toolbar, leading, title, dan actions di atas bagian bawah (jika ada).
+    Column
+        Widget yang menampilkan children dalam susunan vertikal.
+    Scaffold
+        Scaffold adalah kelas di Flutter yang menyediakan banyak widget atau API seperti Drawer, Snack-Bar, Bottom-Navigation-Bar, Floating-Action-Button, App-Bar, dll. Scaffold akan memperluas atau mengisi seluruh layar perangkat. Ini akan mengisi ruang yang tersedia. Scaffold akan memberikan kerangka untuk mengimplementasikan tata letak desain material dasar dari aplikasi.     
+    Container
+        Widget yang memudahkan dengan menggabungkan widget umum untuk melukis, menempatkan, dan menentukan ukuran.
+    TextField
+        TextField memungkinkan pengguna memasukkan teks, baik dengan keyboard fisik atau dengan keyboard di layar.
+    ElevatedButton
+        Elevated button adalah label anak yang ditampilkan pada widget Material yang Material.elevation-nya meningkat ketika tombol ditekan.
+    FutureBuilder
+        Widget yang membangun dirinya berdasarkan snapshot terbaru dari interaksi dengan Future.
+    SnackBar
+        SnackBar adalah widget Flutter yang memungkinkan Anda untuk sementara menampilkan pesan pop-up dalam aplikasi Anda.
+    Navigator
+        Widget yang mengelola sekelompok widget child dengan disiplin tumpukan.
+    ListView.builder
+        Konstruktor ListView.builder mengambil IndexedWidgetBuilder, yang membangun anak-anak secara on demand.
+
+6. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step! (bukan hanya sekadar mengikuti tutorial).
+
+        Membuat file login.dart di dalam lib/screens/:
+        Pertama kita perlu mengimport beberapa modul dan halaman yang dibuthkan, Lalu membuat file login.dart dengan kode sebagai berikut:
+
+        void main() {
+        runApp(const LoginApp());
+        }
+
+        class LoginApp extends StatelessWidget {
+        const LoginApp({super.key});
+
+        @override
+        Widget build(BuildContext context) {
+            return MaterialApp(
+                title: 'Login',
+                theme: ThemeData(
+                primarySwatch: Colors.indigo,
+                ),
+                home: const LoginPage(),
+            );
+        }
+        }
+
+        class LoginPage extends StatefulWidget {
+        const LoginPage({super.key});
+
+        @override
+        _LoginPageState createState() => _LoginPageState();
+        }
+
+        class _LoginPageState extends State<LoginPage> {
+        final TextEditingController _usernameController = TextEditingController();
+        final TextEditingController _passwordController = TextEditingController();
+
+        @override
+        Widget build(BuildContext context) {
+            final request = context.watch<CookieRequest>();
+            return Scaffold(
+                appBar: AppBar(
+                title: const Text(
+                    'Login',
+                    style: TextStyle(color: Colors.white),
+                ),
+                backgroundColor: Colors.indigo[900],
+                foregroundColor: Colors.white,
+                ),
+                body: Container(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                    TextField(
+                    controller: _usernameController,
+                    decoration: const InputDecoration(
+                        labelText: 'Username',
+                        labelStyle: TextStyle(color: Colors.indigo),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.indigo),
+                        ),
+                    ),
+                    ),
+                    const SizedBox(height: 12.0),
+                    TextField(
+                    controller: _passwordController,
+                    decoration: const InputDecoration(
+                        labelText: 'Password',
+                        labelStyle: TextStyle(color: Colors.indigo),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.indigo),
+                        ),
+                    ),
+                    obscureText: true,
+                    ),
+                    const SizedBox(height: 24.0),
+                    ElevatedButton(
+                    onPressed: () async {
+                        String username = _usernameController.text;
+                        String password = _passwordController.text;
+                        final response = await request.login(
+                            "http://127.0.0.1:8080/auth/login/",
+                            // "http://mochammad-wahyu21-tugas.pbp.cs.ui.ac.id/auth/login/", 
+                        {
+                            'username': username,
+                            'password': password,
+                        });
+
+                        if (request.loggedIn) {
+                            String message = response['message'];
+                            String uname = response['username'];
+                            
+                            // ignore: use_build_context_synchronously
+                            Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => MyHomePage()),
+                            );
+                            // ignore: use_build_context_synchronously
+                            ScaffoldMessenger.of(context)
+                            ..hideCurrentSnackBar()
+                            ..showSnackBar(SnackBar(
+                                content: Text("$message Welcome, $uname.")));
+                        } else {
+                            // ignore: use_build_context_synchronously
+                            showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                title: const Text('Login failed'),
+                                content: Text(response['message']),
+                                actions: [
+                                TextButton(
+                                child: const Text('OK'),
+                                onPressed: () {
+                                    Navigator.pop(context);
+                                },
+                                ),
+                                ],
+                            ),
+                            );
+                        }
+                    },
+                    child: const Text('Login'),
+                    ),
+                    const SizedBox(height: 12.0),
+                    ElevatedButton(
+                    onPressed: () {
+                        // Navigate to Register Page
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => RegisterPage()),
+                        );
+                    },
+                    child: const Text('Register'),
+                    )
+                    ],
+                ),
+                ),
+            );
+        }
+        }
+
+        Mengintegrasikan sistem autentikasi Django dengan proyek tugas Flutter.
+        Membuat app authentication dengan perintah python manage.py startapp authentication
+        Memodifikasi requirements.txt sebegai berikut:
+            django
+            gunicorn
+            whitenoise
+            psycopg2-binary
+            requests
+            urllib3
+            django-environ
+            django-tailwind
+            django-cors-headers
+        Melakukan pip install -r requirements.txt
+
+        Memodifikasi settings.py project Django dengan menambahkan nama app dan beberap setting yang diperlukan
+
+        Memodifikasi views.py pada app authentication dengan menambahkan beberap fungsi sebagai beirkut:
+
+                @csrf_exempt
+                def login(request):
+                username = request.POST['username']
+                password = request.POST['password']
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    if user.is_active:
+                            auth_login(request, user)
+                            # Status login sukses.
+                            return JsonResponse({
+                            "username": user.username,
+                            "status": True,
+                            "message": "Login successful!"
+                            # Tambahkan data lainnya jika ingin mengirim data ke Flutter.
+                            }, status=200)
+                    else:
+                            return JsonResponse({
+                            "status": False,
+                            "message": "Login failed, account deactivated."
+                            }, status=401)
+
+                else:
+                    return JsonResponse({
+                            "status": False,
+                            "message": "Login failed, recheck your username and password."
+                    }, status=401)
+                
+                @csrf_exempt
+                def register(request):
+                username = request.POST.get('username')
+                password = request.POST.get('password')
+
+                if User.objects.filter(username=username).exists():
+                    return JsonResponse({"status": False, "message": "Username already used."}, status=400)
+
+                user = User.objects.create_user(username=username, password=password)
+                user.save()
+
+                return JsonResponse({"username": user.username, "status": True, "message": "Register successful!"}, status=201)
+                
+                
+                @csrf_exempt
+                def logout(request):
+                username = request.user.username
+
+                try:
+                    auth_logout(request)
+                    return JsonResponse({"username": username, "status": True, "message": "Logout successful!"}, status=200)
+                except:
+                    return JsonResponse({"status": False, "message": "Logout failed!"}, status=401)
+                Membuat file urls.py pada app authentication
+                from django.urls import path
+                from authentication.views import *
+
+                app_name = 'authentication'
+
+                urlpatterns = [
+                path('login/', login, name='login'),
+                path('logout/', logout, name='logout'),
+                path('register/', register, name='register'),
+                ]
+
+
+        Memodifikasi urls.py pada folder project Django seuai dengan fungsi yang tyelah dibuat sebelumnya
+        
+        Memodifikasi lib/widgets/left_drawer.dart dan lib/widgets/menu_card.dart 
+
+        import 'package:battlechar_mobile/screens/operatorlist_items.dart';
+        import 'package:flutter/material.dart';
+        import 'package:battlechar_mobile/screens/operatorlist_form.dart';
+        import 'package:pbp_django_auth/pbp_django_auth.dart';
+        import 'package:provider/provider.dart';
+        import 'package:battlechar_mobile/screens/login.dart';
+
+        class MenuItem {
+        final String name;
+        final IconData icon;
+        final Color color;
+
+        MenuItem(this.name, this.icon, this.color);
+        }
+
+        class MenuCard extends StatelessWidget {
+        final MenuItem item;
+
+        const MenuCard(this.item, {super.key}); // Constructor
+
+        @override
+        Widget build(BuildContext context) {
+        final request = context.watch<CookieRequest>();
+        return Material(
+            color: item.color,
+            child: InkWell(
+            // Area responsive terhadap sentuhan
+            onTap: () async {
+                // Memunculkan SnackBar ketika diklik
+                ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(SnackBar(
+                    content: Text("You've pressed the ${item.name} button!")));
+
+                // Navigate ke route yang sesuai (tergantung jenis tombol)
+                if (item.name == "Add Operators") {
+                    Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const OperatorFormPage()));
+                }
+
+                if (item.name == "See Operators") {
+                    Navigator.push(context, 
+                    MaterialPageRoute(builder: (context) => const OperatorsPage()));
+                }
+
+                if (item.name == "Logout") {
+                    final response = await request.logout(
+                    // "http://mochammad-wahyu21-tugas.pbp.cs.ui.ac.id/auth/logout/",
+                    "http://127.0.0.1:8080/auth/logout/");
+                    String message = response["message"];
+                    if (response['status']) {
+                    String uname = response["username"];
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text("$message See you again, $uname!"),
+                    ));
+                    Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()),
+                    );
+                    } else {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text("$message"),
+                    ));
+                    }
+                }
+            },
+            child: Container(
+                // Container untuk menyimpan Icon dan Text
+                padding: const EdgeInsets.all(8),
+                child: Center(
+                    child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                    Icon(
+                        item.icon,
+                        color: Colors.white,
+                        size: 30.0,
+                    ),
+                    const Padding(padding: EdgeInsets.all(3)),
+                    Text(
+                        item.name,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(color: Colors.white),
+                    ),
+                    ],
+                    ),
+                ),
+            ),
+            ),
+        );
+        }
+        }
+        Menambah file lib/screens/login.dart
+        import 'package:battlechar_mobile/screens/menu.dart';
+        import 'package:battlechar_mobile/screens/register.dart';
+        import 'package:flutter/material.dart';
+        import 'package:pbp_django_auth/pbp_django_auth.dart';
+        import 'package:provider/provider.dart';
+
+        void main() {
+        runApp(const LoginApp());
+        }
+
+        class LoginApp extends StatelessWidget {
+        const LoginApp({super.key});
+
+        @override
+        Widget build(BuildContext context) {
+        return MaterialApp(
+            title: 'Login',
+            theme: ThemeData(
+            primarySwatch: Colors.indigo,
+            ),
+            home: const LoginPage(),
+        );
+        }
+        }
+
+        class LoginPage extends StatefulWidget {
+        const LoginPage({super.key});
+
+        @override
+        _LoginPageState createState() => _LoginPageState();
+        }
+
+        class _LoginPageState extends State<LoginPage> {
+        final TextEditingController _usernameController = TextEditingController();
+        final TextEditingController _passwordController = TextEditingController();
+
+        @override
+        Widget build(BuildContext context) {
+        final request = context.watch<CookieRequest>();
+        return Scaffold(
+            appBar: AppBar(
+            title: const Text(
+                'Login',
+                style: TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Colors.indigo[900],
+            foregroundColor: Colors.white,
+            ),
+            body: Container(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                    TextField(
+                    controller: _usernameController,
+                    decoration: const InputDecoration(
+                    labelText: 'Username',
+                    labelStyle: TextStyle(color: Colors.indigo),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.indigo),
+                    ),
+                    ),
+                    ),
+                    const SizedBox(height: 12.0),
+                    TextField(
+                    controller: _passwordController,
+                    decoration: const InputDecoration(
+                    labelText: 'Password',
+                    labelStyle: TextStyle(color: Colors.indigo),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.indigo),
+                    ),
+                    ),
+                    obscureText: true,
+                    ),
+                    const SizedBox(height: 24.0),
+                    ElevatedButton(
+                    onPressed: () async {
+                    String username = _usernameController.text;
+                    String password = _passwordController.text;
+                    final response = await request.login(
+                        "http://127.0.0.1:8080/auth/login/",
+                        // "http://mochammad-wahyu21-tugas.pbp.cs.ui.ac.id/auth/login/", 
+                    {
+                        'username': username,
+                        'password': password,
+                    });
+
+                    if (request.loggedIn) {
+                        String message = response['message'];
+                        String uname = response['username'];
+                        
+                        // ignore: use_build_context_synchronously
+                        Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => MyHomePage()),
+                        );
+                        // ignore: use_build_context_synchronously
+                        ScaffoldMessenger.of(context)
+                        ..hideCurrentSnackBar()
+                        ..showSnackBar(SnackBar(
+                                content: Text("$message Welcome, $uname.")));
+                    } else {
+                        // ignore: use_build_context_synchronously
+                        showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                            title: const Text('Login failed'),
+                            content: Text(response['message']),
+                            actions: [
+                                TextButton(
+                                child: const Text('OK'),
+                                onPressed: () {
+                                Navigator.pop(context);
+                                },
+                                ),
+                            ],
+                        ),
+                        );
+                    }
+                    },
+                    child: const Text('Login'),
+                    ),
+                    const SizedBox(height: 12.0),
+                    ElevatedButton(
+                    onPressed: () {
+                    // Navigate to Register Page
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => RegisterPage()),
+                    );
+                    },
+                    child: const Text('Register'),
+                    )
+                ],
+            ),
+            ),
+        );
+        }
+        }
+        Menambah file lib/screens/register.dart
+
+        import 'package:battlechar_mobile/screens/login.dart';
+        import 'package:flutter/material.dart';
+        import 'package:pbp_django_auth/pbp_django_auth.dart';
+        import 'package:provider/provider.dart';
+
+        void main() {
+        runApp(const RegisterApp());
+        }
+
+        class RegisterApp extends StatelessWidget {
+        const RegisterApp({super.key});
+
+        @override
+        Widget build(BuildContext context) {
+        return MaterialApp(
+            title: 'Register',
+            theme: ThemeData(
+            primarySwatch: Colors.indigo,
+            ),
+            home: const RegisterPage(),
+        );
+        }
+        }
+
+        class RegisterPage extends StatefulWidget {
+        const RegisterPage({super.key});
+
+        @override
+        _RegisterPageState createState() => _RegisterPageState();
+        }
+
+        class _RegisterPageState extends State<RegisterPage> {
+        final TextEditingController _usernameController = TextEditingController();
+        final TextEditingController _passwordController = TextEditingController();
+        final TextEditingController _passwordConfirmationController =
+            TextEditingController();
+
+        @override
+        Widget build(BuildContext context) {
+        final request = context.watch<CookieRequest>();
+        return Scaffold(
+            appBar: AppBar(
+            title: const Text(
+                'Register',
+                style: TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Colors.indigo[900],
+            foregroundColor: Colors.white,
+            ),
+            body: Container(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                    TextField(
+                    controller: _usernameController,
+                    decoration: const InputDecoration(
+                    labelText: 'Username',
+                    labelStyle: TextStyle(color: Colors.indigo),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.indigo),
+                    ),
+                    ),
+                    ),
+                    const SizedBox(height: 12.0),
+                    TextField(
+                    controller: _passwordController,
+                    decoration: const InputDecoration(
+                    labelText: 'Password',
+                    labelStyle: TextStyle(color: Colors.indigo),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.indigo),
+                    ),
+                    ),
+                    obscureText: true,
+                    ),
+                    const SizedBox(height: 12.0),
+                    TextField(
+                    controller: _passwordConfirmationController,
+                    decoration: const InputDecoration(
+                    labelText: 'Confirm Password',
+                    labelStyle: TextStyle(color: Colors.indigo),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.indigo),
+                    ),
+                    ),
+                    obscureText: true,
+                    ),
+                    const SizedBox(height: 24.0),
+                    ElevatedButton(
+                    onPressed: () async {
+                    String username = _usernameController.text;
+                    String password = _passwordController.text;
+                    String passwordConfirmation =
+                        _passwordConfirmationController.text;
+
+                    if (password != passwordConfirmation) {
+                        ScaffoldMessenger.of(context)
+                        ..hideCurrentSnackBar()
+                        ..showSnackBar(const SnackBar(
+                                content: Text(
+                                "Register failed, password confimation incorrect.")));
+                        return;
+                    }
+                    final response = await request.post(
+                        "http://127.0.0.1:8080/auth/register/",
+                        // "http://mochammad-wahyu21-tugas.pbp.cs.ui.ac.id/auth/register/",
+                        {
+                            'username': username,
+                            'password': password,
+                        });
+
+                    if (response['status']) {
+                        String message = response['message'];
+                        
+                        Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                        );
+                        ScaffoldMessenger.of(context)
+                        ..hideCurrentSnackBar()
+                        ..showSnackBar(SnackBar(content: Text("$message")));
+                    } else {
+                        showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                            title: const Text('Register failed.'),
+                            content: Text(response['message']),
+                            actions: [
+                                TextButton(
+                                child: const Text('OK'),
+                                onPressed: () {
+                                Navigator.pop(context);
+                                },
+                                ),
+                            ],
+                        ),
+                        );
+                    }
+                    },
+                    child: const Text('Register'),
+                    ),
+                    const SizedBox(height: 12.0),
+                    ElevatedButton(
+                    onPressed: () {
+                    // Navigate to Login
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                    );
+                    },
+                    child: const Text('Login'),
+                    )
+                ],
+            ),
+            ),
+        );
+        }
+        }
+        Membuat file lib/models/operator.dart dengan bantuan website http://app.quicktype.io/
+        // To parse this JSON data, do
+        //
+        //     final operator = operatorFromJson(jsonString);
+
+        import 'dart:convert';
+
+        Operator operatorFromJson(String str) => Operator.fromJson(json.decode(str));
+
+        String operatorToJson(Operator data) => json.encode(data.toJson());
+
+        class Operator {
+        String model;
+        int pk;
+        Fields fields;
+
+        Operator({
+            required this.model,
+            required this.pk,
+            required this.fields,
+        });
+
+        factory Operator.fromJson(Map<String, dynamic> json) => Operator(
+            model: json["model"],
+            pk: json["pk"],
+            fields: Fields.fromJson(json["fields"]),
+        );
+
+        Map<String, dynamic> toJson() => {
+            "model": model,
+            "pk": pk,
+            "fields": fields.toJson(),
+        };
+        }
+
+        class Fields {
+        int user;
+        String name;
+        String unit;
+        String primaryWeapon;
+        String secondaryWeapon;
+        int primaryWeaponAmmoAmount;
+        int secondaryWeaponAmmoAmount;
+        int armor;
+        int speed;
+        String description;
+        int price;
+
+        Fields({
+            required this.user,
+            required this.name,
+            required this.unit,
+            required this.primaryWeapon,
+            required this.secondaryWeapon,
+            required this.primaryWeaponAmmoAmount,
+            required this.secondaryWeaponAmmoAmount,
+            required this.armor,
+            required this.speed,
+            required this.description,
+            required this.price,
+        });
+
+        factory Fields.fromJson(Map<String, dynamic> json) => Fields(
+            user: json["user"],
+            name: json["name"],
+            unit: json["unit"],
+            primaryWeapon: json["primary_weapon"],
+            secondaryWeapon: json["secondary_weapon"],
+            primaryWeaponAmmoAmount: json["primary_weapon_ammo_amount"],
+            secondaryWeaponAmmoAmount: json["secondary_weapon_ammo_amount"],
+            armor: json["armor"],
+            speed: json["speed"],
+            description: json["description"],
+            price: json["price"],
+        );
+
+        Map<String, dynamic> toJson() => {
+            "user": user,
+            "name": name,
+            "unit": unit,
+            "primary_weapon": primaryWeapon,
+            "secondary_weapon": secondaryWeapon,
+            "primary_weapon_ammo_amount": primaryWeaponAmmoAmount,
+            "secondary_weapon_ammo_amount": secondaryWeaponAmmoAmount,
+            "armor": armor,
+            "speed": speed,
+            "description": description,
+            "price": price,
+        };
+        }
+        Memodifikasi lib/screens/operatorlist_form.dart agar bisa membuat Operator dan menyimpannya ke dalam
+        import 'package:flutter/material.dart';
+        import 'package:battlechar_mobile/widgets/left_drawer.dart';
+        import 'package:pbp_django_auth/pbp_django_auth.dart';
+        import 'package:provider/provider.dart';
+        import 'dart:convert';
+        import 'package:battlechar_mobile/screens/menu.dart';
+
+        class OperatorFormPage extends StatefulWidget {
+        const OperatorFormPage({super.key});
+
+        @override
+        State<OperatorFormPage> createState() => _OperatorFormPageState();
+        }
+
+
+        class _OperatorFormPageState extends State<OperatorFormPage> {
+        final _formKey = GlobalKey<FormState>();
+
+        String _name = "";
+        String _unit = "";
+        int _price = 0;
+        String _primaryWeapon = "";
+        int _primaryWeaponAmmo = 0;
+        String _secondaryWeapon = "";
+        int _secondaryWeaponAmmo = 0;
+        int _armor = 0;
+        int _speed = 0;
+        String _description = "";
+
+        @override
+        Widget build(BuildContext context) {
+            final request = context.watch<CookieRequest>();
+
+            return Scaffold(
+                appBar: AppBar(
+                    title: const Center(
+                    child: const Text(
+                    'Add Operator',
+                    style: TextStyle(color: Colors.white),
+                    ),
+                    ),
+                    backgroundColor: Colors.indigo.shade900,
+                    foregroundColor: Colors.white,
+                ),
+                drawer: const LeftDrawer(),
+                body: Form(
+                    key: _formKey,
+                    child: SingleChildScrollView(
+                    child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                        Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                            decoration: InputDecoration(
+                                hintText: "Operator Name",
+                                labelText: "Operator Name",
+                                border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                                ),
+                            ),
+                            onChanged: (String? value) {
+                                setState(() {
+                                _name = value!;
+                                });
+                            },
+                            validator: (String? value) {
+                                if (value == null || value.isEmpty) {
+                                return "Name cannot be empty!";
+                                }
+                                return null;
+                            },
+                        ),
+                        ),
+                        Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                            decoration: InputDecoration(
+                                hintText: "Operator Unit",
+                                labelText: "Operator Unit",
+                                border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                                ),
+                            ),
+                            onChanged: (String? value) {
+                                setState(() {
+                                _unit = value!;
+                                });
+                            },
+                            validator: (String? value) {
+                                if (value == null || value.isEmpty) {
+                                return "Unit cannot be empty!";
+                                }
+                                return null;
+                            },
+                        ),
+                        ),
+                        Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                            decoration: InputDecoration(
+                                hintText: "Price",
+                                labelText: "Price",
+                                border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                                ),
+                            ),
+                            onChanged: (String? value) {
+                                setState(() {
+                                _price = int.parse(value!);
+                                });
+                            },
+                            validator: (String? value) {
+                                if (value == null || value.isEmpty) {
+                                return "Price cannot be empty!";
+                                }
+                                if (int.tryParse(value) == null) {
+                                return "Price must be a valid integer!";
+                                }
+                                return null;
+                            },
+                        ),
+                        ),
+                        Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                            decoration: InputDecoration(
+                                hintText: "Primary Weapon",
+                                labelText: "Primary Weapon",
+                                border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                                ),
+                            ),
+                            onChanged: (String? value) {
+                                setState(() {
+                                _primaryWeapon = value!;
+                                });
+                            },
+                            validator: (String? value) {
+                                if (value == null || value.isEmpty) {
+                                return "Primary weapon cannot be empty!";
+                                }
+                                return null;
+                            },
+                        ),
+                        ),
+                        Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                            decoration: InputDecoration(
+                                hintText: "Primary Weapon Ammo Amount",
+                                labelText: "Primary Weapon Ammo Amount",
+                                border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                                ),
+                            ),
+                            onChanged: (String? value) {
+                                setState(() {
+                                _primaryWeaponAmmo = int.parse(value!);
+                                });
+                            },
+                            validator: (String? value) {
+                                if (value == null || value.isEmpty) {
+                                return "Primary weapon ammo amount cannot be empty!";
+                                }
+                                if (int.tryParse(value) == null) {
+                                return "Primary weapon ammo amount must be a valid integer!";
+                                }
+                                return null;
+                            },
+                        ),
+                        ),
+                        Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                            decoration: InputDecoration(
+                                hintText: "Secondary Weapon",
+                                labelText: "Secondary Weapon",
+                                border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                                ),
+                            ),
+                            onChanged: (String? value) {
+                                setState(() {
+                                _secondaryWeapon = value!;
+                                });
+                            },
+                            validator: (String? value) {
+                                if (value == null || value.isEmpty) {
+                                return "Secondary weapon cannot be empty!";
+                                }
+                                return null;
+                            },
+                        ),
+                        ),
+                        Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                            decoration: InputDecoration(
+                                hintText: "Secondary Weapon Ammo Amount",
+                                labelText: "Secondary Weapon Ammo Amount",
+                                border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                                ),
+                            ),
+                            onChanged: (String? value) {
+                                setState(() {
+                                _secondaryWeaponAmmo = int.parse(value!);
+                                });
+                            },
+                            validator: (String? value) {
+                                if (value == null || value.isEmpty) {
+                                return "Secondary weapon ammo amount cannot be empty!";
+                                }
+                                if (int.tryParse(value) == null) {
+                                return "Secondary weapon ammo amount must be a valid integer!";
+                                }
+                                return null;
+                            },
+                        ),
+                        ),
+                        Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                            decoration: InputDecoration(
+                                hintText: "Armor",
+                                labelText: "Armor",
+                                border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                                ),
+                            ),
+                            onChanged: (String? value) {
+                                setState(() {
+                                _armor = int.parse(value!);
+                                });
+                            },
+                            validator: (String? value) {
+                                if (value == null || value.isEmpty) {
+                                return "Armor value cannot be empty!";
+                                }
+                                if (int.tryParse(value) == null) {
+                                return "Armor value must be a valid integer!";
+                                }
+                                if (int.tryParse(value)! > 3 || int.tryParse(value)! < 1) {
+                                return "Armor value must be in interval 1-to-3!";
+                                }
+                                return null;
+                            },
+                        ),
+                        ),
+                        Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                            decoration: InputDecoration(
+                                hintText: "Speed",
+                                labelText: "Speed",
+                                border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                                ),
+                            ),
+                            onChanged: (String? value) {
+                                setState(() {
+                                _speed = int.parse(value!);
+                                });
+                            },
+                            validator: (String? value) {
+                                if (value == null || value.isEmpty) {
+                                return "Speed value cannot be empty!";
+                                }
+                                if (int.tryParse(value) == null) {
+                                return "Speed value must be a valid integer!";
+                                }
+                                if (int.tryParse(value)! > 3 || int.tryParse(value)! < 1) {
+                                return "Speed value must be in interval 1-to-3!";
+                                }
+                                return null;
+                            },
+                        ),
+                        ),
+                        Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                            decoration: InputDecoration(
+                                hintText: "Description",
+                                labelText: "Description",
+                                border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                                ),
+                            ),
+                            onChanged: (String? value) {
+                                setState(() {
+                                _description = value!;
+                                });
+                            },
+                            validator: (String? value) {
+                                if (value == null || value.isEmpty) {
+                                return "Description cannot be empty!";
+                                }
+                                return null;
+                            },
+                        ),
+                        ),
+                        Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ElevatedButton(
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(Colors.indigo),
+                                    ),
+                                    onPressed: () async {
+                                        if (_formKey.currentState!.validate()) {
+                                            // Kirim ke Django dan tunggu respons
+                                            // DONE: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
+                                            final response = await request.postJson(
+                                            "http://127.0.0.1:8080/create-flutter/",
+                                            // "http://mochammad-wahyu21-tugas.pbp.cs.ui.ac.id/create-flutter/",
+                                            jsonEncode(<String, String>{
+                                            'name': _name,
+                                            'price': _price.toString(),
+                                            'primary_weapon': _primaryWeapon,
+                                            'secondary_weapon': _secondaryWeapon,
+                                            'primary_weapon_ammo_amount': _primaryWeaponAmmo.toString(),
+                                            'secondary_weapon_ammo_amount': _secondaryWeaponAmmo.toString(),
+                                            'armor': _armor.toString(),
+                                            'speed': _speed.toString(),
+                                            'description': _description,
+                                            'unit': _unit,
+                                            }));
+                                            if (response['status'] == 'success') {
+                                            print(response['status']);
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(const SnackBar(
+                                            content: Text("New operator has been saved!"),
+                                            ));
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(builder: (context) => MyHomePage()),
+                                            );
+                                            } else {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(const SnackBar(
+                                                content:
+                                                        Text("ERROR, please try again!"),
+                                            ));
+                                            }
+                                        }
+                                    },
+                                    child: const Text(
+                                        "Save",
+                                        style: TextStyle(color: Colors.white),
+                                    ),
+                                    ),
+                        ),
+                        ),
+                    ]
+                    ),
+                    ),
+                ),
+            );
+        }
+        }
+        Memodifikasi lib/screens/operatorlist_items.dart agar dapat melihat Operator yang di buat User yang sedang logged-in dari database
+        import 'package:battlechar_mobile/screens/detail_operator.dart';
+        import 'package:flutter/material.dart';
+        import 'package:battlechar_mobile/widgets/left_drawer.dart';
+        import 'package:http/http.dart' as http;
+        import 'dart:convert';
+        import 'package:battlechar_mobile/models/operator.dart';
+
+        class OperatorsPage extends StatefulWidget {
+        const OperatorsPage({super.key});
+
+        @override
+        State<StatefulWidget> createState() => _OperatorsPageState();
+        }
+
+        class _OperatorsPageState extends State<OperatorsPage> {
+        Future<List<Operator>> fetchOperator() async {
+        var url = Uri.parse('http://127.0.0.1:8080/json-by-user/');
+        // var url = Uri.parse('http://mochammad-wahyu21-tugas.pbp.cs.ui.ac.id/json-by-user/');
+        var response = await http.get(
+            url,
+            headers: {
+            "Content-Type": "application/json",
+            },
+        );
+
+        // melakukan decode response menjadi bentuk json
+        var data = jsonDecode(utf8.decode(response.bodyBytes));
+
+        // melakukan konversi data json menjadi object Operator
+        List<Operator> listOperator = [];
+        for (var d in data) {
+            if (d != null) {
+            // print(d.fields);
+            listOperator.add(Operator.fromJson(d));
+            }
+        }
+        return listOperator;
+        }
+
+        @override
+        Widget build(BuildContext context) {
+        return Scaffold(
+            appBar: AppBar(
+                title: const Text(
+                    'Operators',
+                    style: TextStyle(color: Colors.white),
+                ),
+                backgroundColor: Colors.indigo[900],
+                foregroundColor: Colors.white,
+            ),
+            drawer: const LeftDrawer(),
+            body: FutureBuilder(
+                    future: fetchOperator(),
+                    builder: (context, AsyncSnapshot snapshot) {
+                    if (snapshot.data == null) {
+                    return const Center(child: CircularProgressIndicator());
+                    } else {
+                    if (!snapshot.hasData) {
+                        return const Column(
+                        children: [
+                            Text(
+                                "No operators.",
+                                style:
+                                TextStyle(color: Color(0xff59A5D8), fontSize: 20),
+                            ),
+                            SizedBox(height: 8),
+                        ],
+                        );
+                    } else {
+                        return ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (_, index) => InkWell(
+                            onTap: () {
+                                Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                builder: (context) =>
+                                    DetailOperatorPage(item: snapshot.data![index]),
+                                ),
+                                );
+                            },
+                            child: Card(
+                                margin: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 12),
+                                child: Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                    Text(
+                                    "${snapshot.data![index].fields.name}",
+                                    style: const TextStyle(
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.bold,
+                                    ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Text(
+                                        "Unit : ${snapshot.data![index].fields.unit}"),
+                                    const SizedBox(height: 10),
+                                    Text(
+                                        "Description : ${snapshot.data![index].fields.description}")
+                                ],
+                                ),
+                                ),
+                            ),
+                        ),
+                        );
+                    }
+                    }
+                    }));
+        }
+        }
+        
+        Menambah file lib/screens/detail_operator.dart untuk melihat detail dari Operator secara lebih mendalam
+
+                import 'package:flutter/material.dart';
+                import 'package:battlechar_mobile/models/operator.dart';
+
+                class DetailOperatorPage extends StatelessWidget {
+                final Operator item;
+
+                DetailOperatorPage({required this.item});
+
+                @override
+                Widget build(BuildContext context) {
+                return Scaffold(
+                    appBar: AppBar(
+                    title: Text(
+                            '${item.fields.name}',
+                            style: TextStyle(color: Colors.white),
+                        ),
+                        backgroundColor: Colors.indigo[900],
+                        foregroundColor: Colors.white,
+                    ),
+                    body: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                            Text(
+                            item.fields.name,
+                            style: Theme.of(context).textTheme.titleLarge,
+                            ),
+                            const SizedBox(height: 10),
+                            Text("Unit: ${item.fields.unit}"),
+                            const SizedBox(height: 10),
+                            Text("Primary Weapon : ${item.fields.primaryWeapon}    Ammo : ${item.fields.primaryWeaponAmmoAmount}"),
+                            const SizedBox(height: 10),
+                            Text("Secondary Weapon : ${item.fields.secondaryWeapon}    Ammo : ${item.fields.secondaryWeaponAmmoAmount}"),
+                            const SizedBox(height: 10),
+                            Text("Armor : ${item.fields.armor}    Speed : ${item.fields.speed}"),
+                            const SizedBox(height: 10),
+                            Text("Price : ${item.fields.price}"),
+                            const SizedBox(height: 10),
+                            Text("Description : ${item.fields.description}"),
+                        ],
+                    ),
+                    ),
+                );
+                }
+                }
+
+
 Tugas 8
 (Dengan Bonus: Halaman baru lihat item produk)
 
