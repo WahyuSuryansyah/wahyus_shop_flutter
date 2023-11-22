@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wahyus_shop/screens/menu.dart';
 import 'package:wahyus_shop/screens/shoplist_form.dart';
-import 'package:wahyus_shop/screens/lihat_produk.dart';
+import 'package:wahyus_shop/screens/list_product.dart';
 
 
 
@@ -73,9 +73,21 @@ class LeftDrawer extends StatelessWidget {
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ItemListPage(),
+                    builder: (context) => const ProductPage(),
                   ));
             },
+          ),
+          // Kode ListTile Menu
+          ListTile(
+              leading: const Icon(Icons.shopping_basket),
+              title: const Text('Daftar Produk'),
+              onTap: () {
+                  // Route menu ke halaman produk
+                  Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ProductPage()),
+                  );
+              },
           ),
         ],
       ),
