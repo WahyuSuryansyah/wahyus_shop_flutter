@@ -3,7 +3,6 @@ NPM  : 2206083142
 Kelas: PBP E
 Kode Asdos: LKS
 
-
 Tugas 9 
 (Dengan Bonus: Register)
 
@@ -1283,7 +1282,7 @@ Untuk mengambil hasil dari pengambilan item, FutureBuilder digunakan. FutureBuil
                     }));
         }
         }
-        
+
         Menambah file lib/screens/detail_operator.dart untuk melihat detail dari Operator secara lebih mendalam
 
                 import 'package:flutter/material.dart';
